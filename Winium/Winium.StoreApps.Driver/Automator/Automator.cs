@@ -53,6 +53,7 @@
 
         public string Session { get; private set; }
 
+        public static List<string> Dependencies { get; set; }
         #endregion
 
         #region Public Methods and Operators
@@ -172,6 +173,9 @@
             this.Deployer = new Deployer(this.ActualCapabilities.DeviceName, strictMatchDeviceName, appPath);
             if (!debugDoNotDeploy)
             {
+                foreach (string path in Dependencies)
+                    this.Deployer.InstallDependency(path);
+
                 this.Deployer.Install();
                 this.Deployer.SendFiles(this.ActualCapabilities.Files);
             }

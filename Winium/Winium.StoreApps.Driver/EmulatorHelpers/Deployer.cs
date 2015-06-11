@@ -71,6 +71,12 @@ namespace Winium.StoreApps.Driver.EmulatorHelpers
 
         #region Public Properties
 
+        public void InstallDependency(string path)
+        {
+            var appManifest = Utils.ReadAppManifestInfoFromPackage(path);
+            Utils.InstallApplication(this.deviceInfo, appManifest, DeploymentOptions.None, path);
+        }
+
         public string DeviceName
         {
             get

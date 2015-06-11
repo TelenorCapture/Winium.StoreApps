@@ -41,6 +41,16 @@
                     Environment.Exit(0);
                 }
 
+                Automator.Automator.Dependencies = new List<string>();
+                if (!string.IsNullOrEmpty(options.Dependency))
+                {
+                    Automator.Automator.Dependencies.Add(options.Dependency);
+                }
+                else
+                {
+                    Console.WriteLine("No dependency");
+                }
+
                 if (options.LogPath != null)
                 {
                     Logger.TargetFile(options.LogPath, options.Verbose);
