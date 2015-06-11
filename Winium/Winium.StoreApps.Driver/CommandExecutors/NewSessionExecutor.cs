@@ -87,6 +87,9 @@
             this.Automator.Deployer = new Deployer81(this.Automator.ActualCapabilities.DeviceName, appPath);
             if (!debugDoNotDeploy)
             {
+                foreach (string dependency in Program.dependencyPaths)
+                    this.Automator.Deployer.InstallDependency(dependency);
+
                 this.Automator.Deployer.Install();
                 this.Automator.Deployer.SendFiles(this.Automator.ActualCapabilities.Files);
                 this.Automator.Deployer.Launch();

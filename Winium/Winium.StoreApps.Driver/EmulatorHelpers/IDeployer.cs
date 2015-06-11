@@ -16,6 +16,8 @@
 
         #region Public Methods and Operators
 
+        void InstallDependency(string path);
+
         void Install();
 
         void Launch();

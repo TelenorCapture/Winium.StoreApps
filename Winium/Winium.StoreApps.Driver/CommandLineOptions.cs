@@ -24,6 +24,9 @@
         [Option("verbose", Required = false, HelpText = "log verbosely")]
         public bool Verbose { get; set; }
 
+        [Option("dependency", Required = false, HelpText = "dependencies to be installed before main app")]
+        public string Dependency { get; set; }
+
         #endregion
 
         #region Public Methods and Operators

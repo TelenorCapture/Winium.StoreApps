@@ -1,14 +1,11 @@
-﻿namespace Winium.StoreApps.Driver
+﻿using System;
+using System.Collections.Generic;
+
+namespace Winium.StoreApps.Driver
 {
-    #region
-
-    using System;
-
-    #endregion
-
     internal class Program
     {
-        #region Methods
+        public static List<string> dependencyPaths = new List<string>();
 
         [STAThread]
         private static void Main(string[] args)
@@ -23,6 +20,17 @@
                     listeningPort = options.Port.Value;
                 }
             }
+
+            if (!string.IsNullOrEmpty(options.Dependency))
+            {
+               dependencyPaths.Add(options.Dependency);
+                Console.WriteLine("Dependency : " + options.Dependency);
+            }
+            else
+            {
+                Console.WriteLine("No dependency");
+            }
+
 
             if (options.LogPath != null)
             {
@@ -48,7 +56,5 @@
                 throw;
             }
         }
-
-        #endregion
     }
 }
