@@ -27,13 +27,14 @@
         public override string DoImpl()
         {
             var element = this.Automator.WebElements.GetRegisteredElement(this.ElementId);
-            var textbox = element as TextBox;
-            if (textbox == null)
-            {
-                throw new AutomationException("Element referenced is not a TextBox.", ResponseStatus.UnknownError);
-            }
 
-            TrySetText(textbox, this.KeyString);
+            if (element is TextBox)
+                TrySetText(element as TextBox, this.KeyString);
+            else if (element is PasswordBox)
+                TrySetText(element as PasswordBox, this.KeyString);
+            else
+                throw new AutomationException("Element referenced is not a TextBox.", ResponseStatus.UnknownError);
+
             return this.JsonResponse();
         }
 
@@ -58,6 +59,24 @@
 
             // TODO: new parameter - FocusState
             textbox.Focus(FocusState.Pointer);
+        }
+
+        private static void TrySetText(PasswordBox pBox, string text)
+        {
+            // TODO: why IValueProvider is null in UniApp?
+            var peer = new PasswordBoxAutomationPeer(pBox);
+            var valueProvider = peer.GetPattern(PatternInterface.Value) as IValueProvider;
+            if (valueProvider != null)
+            {
+                valueProvider.SetValue(text);
+            }
+            else
+            {
+                pBox.Password = text;
+            }
+
+            // TODO: new parameter - FocusState
+            pBox.Focus(FocusState.Pointer);
         }
 
         #endregion

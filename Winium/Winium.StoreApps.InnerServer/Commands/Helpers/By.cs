@@ -22,17 +22,26 @@
             {
                 this.Predicate = x =>
                     {
-                        var automationId = (x as FrameworkElement).AutomationId();
-                        return automationId != null && automationId.Equals(value);
+                        FrameworkElement element = (x as FrameworkElement);
+                        if (element == null)
+                            return false;
+
+                        return element.Name.Equals(value);
                     };
             }
             else if (strategy.Equals("name"))
             {
+
                 this.Predicate = x =>
-                    {
-                        var automationName = (x as FrameworkElement).AutomationName();
-                        return automationName != null && automationName.Equals(value);
-                    };
+                {
+                    var automationId = "";
+
+                    FrameworkElement element = x as FrameworkElement;
+                    if (element != null)
+                        automationId = element.Name;
+
+                    return automationId.Equals(value);
+                };
             }
             else if (strategy.Equals("xname"))
             {

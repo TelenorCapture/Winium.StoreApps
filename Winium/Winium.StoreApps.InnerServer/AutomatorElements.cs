@@ -74,8 +74,12 @@
             {
                 Interlocked.Increment(ref safeInstanceCount);
 
-                registeredKey = element.GetHashCode() + "-"
+                if (!string.IsNullOrEmpty(element.Name))
+                    registeredKey = element.Name;
+                else
+                    registeredKey = element.GetHashCode() + "-"
                                 + safeInstanceCount.ToString(string.Empty, CultureInfo.InvariantCulture);
+
                 this.registeredElements.Add(registeredKey, new WeakReference(element));
             }
 
