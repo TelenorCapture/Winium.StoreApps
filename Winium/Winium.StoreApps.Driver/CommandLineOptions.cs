@@ -27,6 +27,9 @@
         [Option("version", Required = false, HelpText = "print version number and exit")]
         public bool Version { get; set; }
 
+        [Option("dependency", Required = false, HelpText = "dependencies to be installed before main app")]
+        public string Dependency { get; set; }
+
         #endregion
 
         #region Public Methods and Operators
