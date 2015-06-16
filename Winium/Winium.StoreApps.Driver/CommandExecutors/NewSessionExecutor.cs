@@ -1,7 +1,7 @@
 ﻿namespace Winium.StoreApps.Driver.CommandExecutors
 {
     #region
-
+    using System.Security.Authentication;
     using System;
     using System.Diagnostics;
     using System.Threading;
@@ -10,9 +10,9 @@
 
     using Newtonsoft.Json;
 
-    using Winium.StoreApps.Common;
-    using Winium.StoreApps.Driver.Automator;
-    using Winium.StoreApps.Driver.EmulatorHelpers;
+    using Common;
+    using Automator;
+    using EmulatorHelpers;
 
     #endregion
 
@@ -36,6 +36,7 @@
 
             const int PingStep = 500;
             var stopWatch = new Stopwatch();
+            Console.WriteLine("Pinging " + innerIp);
             while (timeout > 0)
             {
                 stopWatch.Restart();
@@ -45,6 +46,7 @@
                 var responseBody = this.Automator.CommandForwarder.ForwardCommand(pingCommand, false, 2000);
                 if (responseBody.StartsWith("<pong>", StringComparison.Ordinal))
                 {
+                    Console.WriteLine("\tPong received");
                     break;
                 }
 
@@ -52,6 +54,11 @@
                 stopWatch.Stop();
                 timeout -= stopWatch.ElapsedMilliseconds;
             }
+
+            if (timeout == 0)
+                throw new AuthenticationException("Session not created (timout)");
+            else
+                Console.WriteLine("Ping succeeded");
 
             // TODO throw AutomationException with SessionNotCreatedException if timeout and uninstall the app
             Console.WriteLine();

@@ -24,11 +24,13 @@ namespace Winium.StoreApps.Driver
             if (!string.IsNullOrEmpty(options.Dependency))
             {
                dependencyPaths.Add(options.Dependency);
-                Console.WriteLine("Dependency : " + options.Dependency);
+                Console.WriteLine("\tDependency : " + options.Dependency);
             }
             else
             {
-                Console.WriteLine("No dependency");
+                const string vcppDependency = "C:\\Program Files (x86)\\Microsoft SDKs\\Windows Phone\v8.1\\ExtensionSDKs\\Microsoft.VCLibs\\12.0\\AppX\\Debug\\x86\\Microsoft.VCLibs.x86.Debug.12.00.Phone.appx";
+                dependencyPaths.Add("\tDependency " + vcppDependency);
+                dependencyPaths.Add(vcppDependency);
             }
 
 
