@@ -1,4 +1,6 @@
-﻿namespace Winium.StoreApps.Driver.CommandExecutors
+﻿using System.Drawing;
+
+namespace Winium.StoreApps.Driver.CommandExecutors
 {
     #region
 
@@ -29,7 +31,7 @@
                     this.Automator.EmulatorController.TypeKey(Keys.PageUp);
                     break;
                 case "OnScreenKeyboard.Disable":
-                    this.Automator.EmulatorController.TypeKey(Keys.PageDown);
+                    this.Automator.EmulatorController.LeftButtonClick(new Point(50,50));
                     break;
                 default:
                     const string url =
