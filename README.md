@@ -128,6 +128,29 @@ It needs to hide the keyboard first because if we don't, we could end up pressin
 ##### find_last_appx_file()
 Used to find the appx file with the highest version number so that we can have multiple appx files without having to delete the old ones or specify an explicit path
 
+## Step by step
+---
+
+### 1. Building appx package
+In visual studio, right click on the project  `Capture.UniWin.WindowsPhone` and selecet `Store -> Create App Package` and press `Next`
+
+From the bottom left menu, selct `x86` and `Debug(x86)`
+
+Click `Create`
+
+The package will now be created and placed in `[CAPTURE ROOT]\Capture.UniWin\Capture.UniWin.WindowsPhone\bin`
+
+### 2. Starting the tests
+Open a terminal and navigate to `[CAPTURE ROOT]\SystemTest`.
+
+Run `py -3 -m unitttest discover` ( you might have to swap `py -3` with `python` or similar. The `-3` parameter is not mandatory. )
+
+### 3. Sit back and watch the magic
+The test will now start the winium server. Which in turns will start the emulator, install the app and so on. The test will also look for the latest appx package ( the one with the highest version number ) and install that along with the dependencies. 
+
+Finally when all is set up, the tests defined in `test_login.py` ( and any other unit tests ) will run. The test will not stop until all test steps are done, even if there have been failures. You have to wait in order to get feedback ( though an option should be added here so that we don't always have to wait )
+
+
 <p align="right">
 English description | <a href="README_RU.md">Описание на русском</a>
 </p>
