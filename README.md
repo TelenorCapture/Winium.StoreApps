@@ -4,121 +4,129 @@
 The Capture Winium / Selenium tests consists of several parts
 
 ## system_test.py
+---
 This is where the induvidual tests functions are implemented. It contains all functions for setting up, executing the various steps of each test and tearing down the test.
 
 It mostly serves as a wrapper around the appium/winium specific parts of the test to provide a platform-independant interface. It enables writing one test for all three platforms. The implementations of these functions is located in `wp_driver.py`
 
 It supports :
 
-#### setUp()
+##### setUp()
 Does everything needed to start a test, including starting the emulator, connecting to it, installing the app on the emulator and starting it.
 
-#### tearDown()
+##### tearDown()
+
 Does everything needed to stop the test
 
-#### click( id )
+##### click( id )
 Clicks on the elment with the id `id`. If no element was found or the element wasn't clickable, the test will fail
 
-### # verify_text( text, id )
+##### verify_text( text, id )
 Verifies that the text of the element with the id `id` is the same as `text`. Fails if the texts are different
 
-#### verify_text_using_libres_impl( element )
+##### verify_text_using_libres_impl( element )
 Takes an element ( note `element` is the actual element, not an id ). And verifies that it has the correct value in `strings.csv`.
 Test fail if string is not identical
 
 See `string_dictonary` for more info
 
-#### verify_text_using_libres ( id )
+##### verify_text_using_libres ( id )
 Helper function for `verify_text_using_libres_impl`. This function takes an `id`
 
-#### verify_all_using_libres()
+##### verify_all_using_libres()
 Helper function for `verify_text_using_libres_impl`. This function gets all visible elements on the current page and checks them usinga `verify_text_using_libres_impl`
 
-#### verify_unescaped( id )
+##### verify_unescaped( id )
 This function is used to verify escaping. It checks whether the element with the id `id` has any XML escape characters in it text
 
-#### is_displayed( id ) #
+##### is_displayed( id )
 Returns true of the element with the id `id` is visible
 
-#### verify_visible( id )
+##### verify_visible( id )
 Does the above check, but fails the test if the item is not visible
 
-#### verify_not_visible( id )
+##### verify_not_visible( id )
 Does the `is_displayed` check, but fails the test if the item is visible
 
-#### enter_text( text, id )
+##### enter_text( text, id )
 Writes the text `text` into the element with the id `id`
 
-#### app_fields.py
+### app_fields.py
+---
 Contains the element ids as constant strings so that the can be refered to by the id wihtout writing the id itself
 
-## app_screens.py
+### app_screens.py
+---
 Contains functionality for confirming that the various screens are correct using system_test
 
 Note : not an actual test in itself, it's just used by the test to confirm that the page is correct
 
-## test_login.py
+### test_login.py
+---
 Currently the only test. It tests the login page in various ways by using system_test and app_screens.py
 
-## context.py
+### context.py
+---
 Contains a few helper functions for creating correct parts and similar
 
-## lookup_ids.csv
+### lookup_ids.csv
+---
 A mapping between the element ids and the string ids. Used by string dictionary to check strings
 
-## string_dictionary.py
+### string_dictionary.py
+---
 A dictonary that can be used to get the correct string for a given element id. It uses the `lookup_ids.csv` and `strings.csv` to look up strings based on the element id.
 
 It can be configured to look up strings in any supported language, it defaults to English
 
-### look_up( id )
+##### look_up( id )
 Looks up a the element with the id `id` and returns the corresponding string
 
-### find_string_key( id )
+##### find_string_key( id )
 Finds the strings.csv key for the element with the id `id`
 
-### get_from_key( key )
+##### get_from_key( key )
 Returs the string for a the key `key`
 
 Note : `key` is the strings.csv id, not the element id. It is meant to be used with the find_string_key
 
-## wp_driver.py
+### wp_driver.py
+---
 The winium specific implementation of system_test.py. It deals with everything that concerns the phone / emulator we are testing on
 
-## start()
+##### start()
 Starts the driver, which is the windows equivelent of Appium. It also tells the driver about the dependency ( VisualC++ )
 
-## connect()
+##### connect()
 Connects to the driver and tells it to start the emulator and install + start the app.
 
-## disconnect()
+##### disconnect()
 Disconnects from the driver which tells the emulator to stop
 
-## stop()
+##### stop()
 Disconnects from the server and kills the driver.exe
 
-## find_item( id )
+##### find_item( id )
 Returns an item with the id, `id`
 
-## find_all_items()
+##### find_all_items()
 Returns all visible elements of the types TextBlock, Button, HyperlinkButton and PasswordBox.
 
 Can be extended to support more control types
 
-## has_item( id )
+##### has_item( id )
 Verifies that an item with the id `id` is present and reachable
 
-## hide_keyboard()
+##### hide_keyboard()
 What the signature said
 
-## click( id )
+##### click( id )
 Hides keyboard and tries to click the item with the id `id`
 
 It needs to hide the keyboard first because if we don't, we could end up pressing the keyboard instead of the actual button
 
-## find_last_appx_file()
+##### find_last_appx_file()
 Used to find the appx file with the highest version number so that we can have multiple appx files without having to delete the old ones or specify an explicit path
-
 
 <p align="right">
 English description | <a href="README_RU.md">Описание на русском</a>
