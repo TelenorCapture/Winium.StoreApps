@@ -61,7 +61,7 @@
             {
                 return CommandResponse.Create(
                     HttpStatusCode.OK, 
-                    this.JsonResponse(ResponseStatus.UnknownError, "Unknown error: " + exception.Message));
+                    this.JsonResponse(ResponseStatus.UnknownError, "Unknown error: " + exception.ToString()));
             }
         }
 

@@ -57,7 +57,7 @@
 
             if (exception != null)
             {
-                throw exception;
+                throw new Exception("An exception occurred while executing a command. ", exception);
             }
         }
 
@@ -79,7 +79,7 @@
             }
             catch (Exception exception)
             {
-                response = this.JsonResponse(ResponseStatus.UnknownError, "Unknown error: " + exception.Message);
+                response = this.JsonResponse(ResponseStatus.UnknownError, "Unknown error: " + exception.ToString());
             }
 
             return response;

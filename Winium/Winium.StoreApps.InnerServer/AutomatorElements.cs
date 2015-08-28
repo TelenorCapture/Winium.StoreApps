@@ -80,7 +80,11 @@
                     registeredKey = element.GetHashCode() + "-"
                                 + safeInstanceCount.ToString(string.Empty, CultureInfo.InvariantCulture);
 
-                this.registeredElements.Add(registeredKey, new WeakReference(element));
+                WeakReference reference;
+                if (!this.registeredElements.TryGetValue(registeredKey, out reference))
+                {
+                    this.registeredElements.Add(registeredKey, new WeakReference(element));
+                }
             }
 
             return registeredKey;
