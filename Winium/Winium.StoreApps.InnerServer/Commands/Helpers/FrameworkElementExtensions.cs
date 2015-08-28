@@ -1,33 +1,24 @@
-﻿namespace Winium.StoreApps.InnerServer.Commands.Helpers
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+
+using Newtonsoft.Json.Linq;
+
+using Windows.Foundation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
+using Windows.UI.Xaml.Automation.Peers;
+using Windows.UI.Xaml.Media;
+
+using Winium.StoreApps.Common.Exceptions;
+
+namespace Winium.StoreApps.InnerServer.Commands.Helpers
 {
-    #region
-
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-
-    using Newtonsoft.Json.Linq;
-
-    using Windows.Foundation;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Automation;
-    using Windows.UI.Xaml.Automation.Peers;
-    using Windows.UI.Xaml.Media;
-
-    using Winium.StoreApps.Common.Exceptions;
-
-    #endregion
 
     internal static class FrameworkElementExtensions
     {
-        #region Constants
-
         internal const string HelpNotSupportInterfaceMsg = "Element does not support {0} control pattern interface.";
-
-        #endregion
-
-        #region Methods
 
         internal static string AutomationId(this FrameworkElement element)
         {
@@ -121,19 +112,26 @@
 
         internal static Point GetCoordinatesInView(this FrameworkElement element, UIElement visualRoot)
         {
+            // NOTE: The ratio value is a bit tricky in the case of the timeline view. It needs to hit the first image, so we can't use two.
+            // At the same time we need to hit close-ish to the center so that we don't hit any headers
+            const int ratio = 5;
+
             // TODO reasearch posibility to replace this code to GetClickablePoint()
             // FIXME Location returns wrong coordinates when apps screen slides up due to some input element getting focus #34
             var point = element.TransformToVisual(visualRoot).TransformPoint(new Point(0, 0));
-            var center = new Point(point.X + (int)(element.ActualWidth / 2), point.Y + (int)(element.ActualHeight / 2));
+            var center = new Point(point.X + (int)(element.ActualWidth / ratio ), point.Y + (int)(element.ActualHeight / ratio ));
             var bounds = new Rect(point, new Size(element.ActualWidth, element.ActualHeight));
             var boundsInView = new Rect(new Point(0, 0), visualRoot.RenderSize);
+
             boundsInView.Intersect(bounds);
 
             var result = boundsInView.IsEmpty
-                             ? center
-                             : new Point(
-                                   boundsInView.X + (int)(boundsInView.Width / 2), 
-                                   boundsInView.Y + (int)(boundsInView.Height / 2));
+                ? center
+                    : new Point(
+                        boundsInView.X + (int)(boundsInView.Width / ratio ),
+                        boundsInView.Y + (int)(boundsInView.Height / ratio )
+                    );
+
             return ScreenCoordinatesHelper.LogicalPointToScreenPoint(result);
         }
 
@@ -243,6 +241,5 @@
             }
         }
 
-        #endregion
     }
 }
