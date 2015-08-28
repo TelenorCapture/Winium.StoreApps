@@ -47,7 +47,7 @@
             }
             catch (Exception exception)
             {
-                response = this.JsonResponse(ResponseStatus.UnknownError, "Unknown error: " + exception.ToString());
+                response = this.JsonResponse(ResponseStatus.UnknownError, "{\"status\":0, \"message\": " + JsonConvert.SerializeObject("Unknown error: " + exception.ToString()) + "}");
             }
 
             return response;
