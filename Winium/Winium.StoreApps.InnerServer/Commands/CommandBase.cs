@@ -43,11 +43,11 @@
             }
             catch (AutomationException exception)
             {
-                response = this.JsonResponse(exception.Status, exception);
+                response = this.JsonResponse(exception.Status, exception.ToString());
             }
             catch (Exception exception)
             {
-                response = this.JsonResponse(ResponseStatus.UnknownError, exception);
+                response = this.JsonResponse(ResponseStatus.UnknownError, "{\"status\":0, \"message\": " + JsonConvert.SerializeObject("Unknown error: " + exception.ToString()) + "}");
             }
 
             return response;
